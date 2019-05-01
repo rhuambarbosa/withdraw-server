@@ -6,8 +6,9 @@ CREATE TABLE account (
 );
 
 CREATE TABLE transaction (
-	authorization_code varchar(255) PRIMARY KEY,
+	trace_code varchar(255) PRIMARY KEY,
 	account_id varchar(255),
+	authorization_code varchar(255) NOT NULL,
 	action varchar(255),
 	code varchar(255),
 	amount numeric(10,2),

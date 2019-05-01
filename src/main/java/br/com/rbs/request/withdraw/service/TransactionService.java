@@ -26,7 +26,7 @@ public class TransactionService {
     private TransactionRepository repository;
 
     public void postTransaction(Transaction transaction) {
-        LOGGER.info("WithDrawServer-TransactionService:Postando mensagem na fila authorizationCode={}", transaction.getAuthorizationCode());
+        LOGGER.info("WithDrawServer-TransactionService:Postando mensagem na fila traceCode={}", transaction.getTraceCode());
         rabbitTemplate.convertAndSend(RabbitQueue.REGISTER_TRANSACTION.getQueue(), new Gson().toJson(transaction));
     }
 

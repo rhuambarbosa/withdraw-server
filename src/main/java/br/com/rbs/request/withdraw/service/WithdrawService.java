@@ -10,6 +10,7 @@ import br.com.rbs.request.withdraw.exception.InsuficientFundsException;
 import br.com.rbs.request.withdraw.exception.InvalidAccountException;
 import br.com.rbs.request.withdraw.exception.RequestException;
 import br.com.rbs.request.withdraw.repository.AccountRepository;
+import br.com.rbs.request.withdraw.utils.Cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +36,13 @@ public class WithdrawService {
     private AccountRepository accountRepository;
 
     public ResponseDto withdraw(String message) {
-        Transaction transaction = new Transaction(WithdrawEnum.AUTHORIZED);
-        LOGGER.info("WithDrawServer-WithdrawService:Iniciando processamento authorizationCode={}", transaction.getAuthorizationCode());
+        Transaction transaction = new Transaction(WithdrawEnum.AUTHORIZED, Cache.nextAuthorizationCode());
+        LOGGER.info("WithDrawServer-WithdrawService:Iniciando processamento traceCode={}", transaction.getTraceCode());
 
         try {
             RequestDto requestDto = validationService.getRequestDto(message, transaction);
 
-            transaction.setAccountId(psiService.getAccount(requestDto.getCardnumber(), transaction.getAuthorizationCode()));
+            transaction.setAccountId(psiService.getAccount(requestDto.getCardnumber(), transaction.getTraceCode()));
 
             withdraw(transaction);
         } catch (InvalidAccountException e) {
@@ -58,40 +59,40 @@ public class WithdrawService {
 
         transactionService.postTransaction(transaction);
 
-        LOGGER.info("WithDrawServer-WithdrawService:Saque finalizado. authorizationCode={}", transaction.getAuthorizationCode());
+        LOGGER.info("WithDrawServer-WithdrawService:Saque finalizado. traceCode={}", transaction.getTraceCode());
         return new ResponseDto(transaction);
     }
 
     public void withdraw(Transaction transaction) throws InvalidAccountException, InsuficientFundsException, BlockedAccountException {
-        LOGGER.info("WithDrawServer-WithdrawService:Iniciando saque authorizationCode={}", transaction.getAuthorizationCode());
+        LOGGER.info("WithDrawServer-WithdrawService:Iniciando saque traceCode={}", transaction.getTraceCode());
         Account account = accountRepository.findById(transaction.getAccountId()).get();
 
         if (account == null) {
-            LOGGER.info("WithDrawServer-WithdrawService:Falha na recuperação da conta authorizationCode={}", transaction.getAuthorizationCode());
+            LOGGER.info("WithDrawServer-WithdrawService:Falha na recuperação da conta traceCode={}", transaction.getTraceCode());
             throw new InvalidAccountException("Account not found");
         }
 
         if (account.isBlockBalance()) {
-            LOGGER.info("WithDrawServer-WithdrawService:Conta bloqueada para saque authorizationCode={}", transaction.getAuthorizationCode());
+            LOGGER.info("WithDrawServer-WithdrawService:Conta bloqueada para saque traceCode={}", transaction.getTraceCode());
             throw new BlockedAccountException("blocked account");
         } else {
-            LOGGER.info("WithDrawServer-WithdrawService:Efetuando saque authorizationCode={}", transaction.getAuthorizationCode());
+            LOGGER.info("WithDrawServer-WithdrawService:Efetuando saque traceCode={}", transaction.getTraceCode());
             account.setBlockBalance(Boolean.TRUE);
             accountRepository.save(account);
-            LOGGER.info("WithDrawServer-WithdrawService:Saldo bloqueado authorizationCode={}", transaction.getAuthorizationCode());
+            LOGGER.info("WithDrawServer-WithdrawService:Saldo bloqueado traceCode={}", transaction.getTraceCode());
 
-            LOGGER.info("WithDrawServer-WithdrawService:Validando saldo authorizationCode={}", transaction.getAuthorizationCode());
+            LOGGER.info("WithDrawServer-WithdrawService:Validando saldo traceCode={}", transaction.getTraceCode());
             boolean isWithdraw = account.isWithdraw(transaction.getAmount());
             if (isWithdraw) {
-                LOGGER.info("WithDrawServer-WithdrawService:Saldo disponível authorizationCode={}", transaction.getAuthorizationCode());
+                LOGGER.info("WithDrawServer-WithdrawService:Saldo disponível traceCode={}", transaction.getTraceCode());
                 account.Withdraw(transaction.getAmount());
             }
 
-            LOGGER.info("WithDrawServer-WithdrawService:Atualizando conta e liberando saldo. authorizationCode={}", transaction.getAuthorizationCode());
+            LOGGER.info("WithDrawServer-WithdrawService:Atualizando conta e liberando saldo. traceCode={}", transaction.getTraceCode());
             accountRepository.save(account);
 
             if (!isWithdraw) {
-                LOGGER.info("WithDrawServer-WithdrawService:Saldo não disponível. authorizationCode={}", transaction.getAuthorizationCode());
+                LOGGER.info("WithDrawServer-WithdrawService:Saldo não disponível. traceCode={}", transaction.getTraceCode());
                 throw new InsuficientFundsException("Insuficient funds");
             }
         }

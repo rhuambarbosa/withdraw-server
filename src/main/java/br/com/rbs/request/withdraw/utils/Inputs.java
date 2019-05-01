@@ -44,7 +44,7 @@ public class Inputs implements CommandLineRunner {
     private void createTransaction(String accountId) {
         int qtdTransaction = getRandom();
         for (int i = 0; i < qtdTransaction; i++) {
-            Transaction transaction = new Transaction(WithdrawEnum.AUTHORIZED);
+            Transaction transaction = new Transaction(WithdrawEnum.AUTHORIZED, Cache.nextAuthorizationCode());
             transaction.setAccountId(accountId);
             transaction.setAmount(new BigDecimal("1.20"));
             transaction.setAction(ActionEnum.WITHDRAW.getAction());

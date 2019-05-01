@@ -23,28 +23,28 @@ public class PsiService {
     @Value("${url.psi.accounts}")
     private String urlPsiAccount;
 
-    public String getAccount(Long cardNumber, String authorizationCode) throws Exception {
+    public String getAccount(Long cardNumber, String traceCode) throws Exception {
         ResponseEntity<String> response;
 
         try {
-            LOGGER.info("WithDrawServer-PsiService:Montando busca da conta. authorizationCode={}", authorizationCode);
+            LOGGER.info("WithDrawServer-PsiService:Montando busca da conta. traceCode={}", traceCode);
             UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(urlPsiAccount)
                     .queryParam("cardNumber", cardNumber)
                     .queryParam("enable", true);
 
-            LOGGER.info("WithDrawServer-PsiService:Buscando conta authorizationCode={}", authorizationCode);
+            LOGGER.info("WithDrawServer-PsiService:Buscando conta authorizationCode={}", traceCode);
             response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, generateEntityToSend(), String.class);
 
             if (HttpStatus.OK.equals(response.getStatusCode())) {
-                LOGGER.info("WithDrawServer-PsiService:Conta encontrada authorizationCode={}", authorizationCode);
+                LOGGER.info("WithDrawServer-PsiService:Conta encontrada traceCode={}", traceCode);
                 return response.getBody();
             }
         } catch (Exception e) {
-            LOGGER.info("WithDrawServer-PsiService:Erro ao recuperar conta athorizationCode={}", authorizationCode, e);
+            LOGGER.info("WithDrawServer-PsiService:Erro ao recuperar conta traceCode={}", traceCode, e);
             throw new Exception(e);
         }
 
-        LOGGER.info("WithDrawServer-PsiService:Conta não encontrada authorizationCode={}", authorizationCode);
+        LOGGER.info("WithDrawServer-PsiService:Conta não encontrada traceCode={}", traceCode);
         throw new InvalidAccountException("Account not found");
     }
 

@@ -49,20 +49,12 @@ mvn clean package fabric8:build
 gera uma imagem docker xxx.xxx
 ## Tests
 ```shell
-run da imagem gerada:
+Subir o sistema de modo local ou em docker
 
-abra o cmd e digite: telnet localhost 9876
-informe o json com a solicitação da transação de saque.
+prompt(digite):telnet localhost 9876
+Informe o json com a solicitação da transação de saque.
 ex: 
-{   
-
-"action": "withdraw",
-
-"cardnumber":"1234567890123456",
-
-"amount": "1,10"
-
-}
+{"action": "withdraw","cardnumber":"1234567890123456","amount": "1,10"}
 
 Será experado um json de resposta:
 ex:
@@ -82,13 +74,6 @@ Local: Dentro da pasta raiz do projeto onde exite o maven
 mvn spring-boot:run
 ``` 
 Docker: 
-
-## Observações
-Algumas maquina não reconhece o rabbit no localhost então é necessário informar o ip do rabbit no properties
-Verificar o ip do container
-```shell
-docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' <container>
-``` 
 ## Funcionalidades API
 ```shell
 | Verbo     | Funcionalidade    | Descrição |
@@ -108,3 +93,9 @@ Na pasta resources/static existe o arquivo a ser importado no postman com cada u
 | 7450317890123456 | R$ 500,00   |
 ``` 
 Os demais cartões podem ser consultadas através de funcionalidades da API
+## Observações
+Algumas maquina não reconhece o rabbit no localhost então é necessário informar o ip do rabbit no properties
+Verificar o ip do container
+```shell
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' rabbitmq
+``` 

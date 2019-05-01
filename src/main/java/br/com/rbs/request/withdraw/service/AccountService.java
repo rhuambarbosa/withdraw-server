@@ -28,9 +28,9 @@ public class AccountService {
     private TransactionService transactionService;
 
     public CardBalanceDto getCardBalance(Long cardnumber, ActionEnum action, PageRequest pageRequest) throws Exception {
-        final String AuthorizationCode = SecureRandomNumber.generateAuthorizationCode();
+        final String traceCode = SecureRandomNumber.generateAuthorizationCode();
 
-        final String accountId = psiService.getAccount(cardnumber, AuthorizationCode);
+        final String accountId = psiService.getAccount(cardnumber, traceCode);
         return getCardBalanceDto(accountId, cardnumber, getTransactionDtoList(accountId, action, pageRequest));
     }
 

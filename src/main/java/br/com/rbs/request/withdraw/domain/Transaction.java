@@ -1,6 +1,7 @@
 package br.com.rbs.request.withdraw.domain;
 
 import br.com.rbs.request.withdraw.enuns.WithdrawEnum;
+import br.com.rbs.request.withdraw.utils.Cache;
 import br.com.rbs.request.withdraw.utils.SecureRandomNumber;
 import lombok.Data;
 
@@ -14,6 +15,8 @@ import java.time.LocalDateTime;
 public class Transaction {
 
     @Id
+    private String traceCode;
+
     private String authorizationCode;
 
     private String accountId;
@@ -27,13 +30,14 @@ public class Transaction {
     private LocalDateTime creationDate;
 
     public Transaction() {
+        this.traceCode =  SecureRandomNumber.generateAuthorizationCode();
         this.creationDate = LocalDateTime.now();
-        this.authorizationCode = SecureRandomNumber.generateAuthorizationCode();
     }
 
-    public Transaction(WithdrawEnum withdrawEnum) {
+    public Transaction(WithdrawEnum withdrawEnum, String authorizationCode) {
         this();
         this.code = withdrawEnum.getCode();
+        this.authorizationCode = authorizationCode;
     }
 
     public void setAction(String action) {

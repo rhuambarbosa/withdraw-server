@@ -27,17 +27,17 @@ public class TransactionListener {
             LOGGER.info("WithDrawServer-TransactionListener:Iniciando converção da mensagem.....");
 
             transaction = new Gson().fromJson(message, Transaction.class);
-            LOGGER.info("WithDrawServer-TransactionListener:Mensagem recebida authorizationCode={}", transaction.getAuthorizationCode());
+            LOGGER.info("WithDrawServer-TransactionListener:Mensagem recebida atraceCode={}", transaction.getTraceCode());
 
-            LOGGER.info("WithDrawServer-TransactionService:Iniciando salvamento da transação authorizationCode={}", transaction.getAuthorizationCode());
+            LOGGER.info("WithDrawServer-TransactionService:Iniciando salvamento da transação traceCode={}", transaction.getTraceCode());
             repository.save(transaction);
 
-            LOGGER.info("WithDrawServer-TransactionService:Transação salva com sucesso. authorizationCode={}", transaction.getAuthorizationCode());
+            LOGGER.info("WithDrawServer-TransactionService:Transação salva com sucesso. traceCode={}", transaction.getTraceCode());
         } catch (Exception e) {
             if (transaction == null) {
                 LOGGER.info("WithDrawServer-TransactionListener:Falha ao converter mensagem...");
             } else {
-                LOGGER.info("WithDrawServer-TransactionListener:Falha no salvamento da mensagem authorizationCode={}", transaction.getAuthorizationCode());
+                LOGGER.info("WithDrawServer-TransactionListener:Falha no salvamento da mensagem traceCode={}", transaction.getTraceCode());
             }
         }
     }
