@@ -1,7 +1,6 @@
 package br.com.rbs.request.withdraw.domain;
 
 import br.com.rbs.request.withdraw.enuns.WithdrawEnum;
-import br.com.rbs.request.withdraw.utils.Cache;
 import br.com.rbs.request.withdraw.utils.SecureRandomNumber;
 import lombok.Data;
 
@@ -30,7 +29,7 @@ public class Transaction {
     private LocalDateTime creationDate;
 
     public Transaction() {
-        this.traceCode =  SecureRandomNumber.generateAuthorizationCode();
+        this.traceCode = SecureRandomNumber.generateAuthorizationCode();
         this.creationDate = LocalDateTime.now();
     }
 
