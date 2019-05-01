@@ -100,11 +100,11 @@ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' <co
 Na pasta resources/static existe o arquivo a ser importado no postman com cada uma das funcionalidades.
 ## Cartões iniciais
 ```shell
-| Cartão     | Saldo    |
-| --------|---------|-------|
+| Cartão           | Saldo       |
+| -----------------|-------------|
 | 1234567890123456 | R$ 1.000,00 |
 | 1234567774523456 | R$ 1.000,00 |
 | 1234567899865034 | R$ 2.000,00 |
-| 7450317890123456 | R$ 500,00 |
+| 7450317890123456 | R$ 500,00   |
 ``` 
 Os demais cartões podem ser consultadas através de funcionalidades da API
