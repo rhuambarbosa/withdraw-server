@@ -42,9 +42,9 @@ mvn clean package
 ```
 Docker
 ```shell
-mvn clean package fabric8:build
+mvn clean package docker:build --batch-mode release:update-versions 
 ```
-gera uma imagem docker xxx.xxx
+gera uma imagem docker rhuambarbosa/withdraw-server:<version>
 ## Tests
 ```shell
 Subir o sistema de modo local ou em docker
@@ -71,7 +71,7 @@ Local: Dentro da pasta raiz do projeto onde exite o maven
 ```shell
 mvn spring-boot:run
 ``` 
-Docker: 
+Docker: docker run -d --restart=always -e "SPRING_PROFILES_ACTIVE=prod" --name withdraw-server -p 9876:9876 -p 8080:8080 rhuambarbosa/withdraw-server:<tag> 
 ## Funcionalidades API
 ```shell
 | Verbo     | Funcionalidade    | Descrição |
@@ -79,6 +79,7 @@ Docker:
 | Get | http://localhost:8080/balances/{cardnumber} | Extrato com as 10 ultimas transações |
 | Get | localhost:8080/psi/accounts | Retorna a conta de um cartão, recebe como parametro o cardNumber e se esta ativo |
 | Get | localhost:8080/psi/creditCard | Retorna o Id dos cartões, recebe como parametro o page e o size da paigna desejada |
+| Get | http://localhost:8080/actuator/health |
 ``` 
 Na pasta resources/static existe o arquivo a ser importado no postman com cada uma das funcionalidades.
 ## Cartões iniciais
