@@ -69,9 +69,12 @@ ex:
 ## Deploying
 Local: Dentro da pasta raiz do projeto onde exite o maven
 ```shell
-mvn spring-boot:run
+mvn spring-boot:run -Dspring.profiles.active=prod
 ``` 
-Docker: docker run -d --restart=always -e "SPRING_PROFILES_ACTIVE=prod" --name withdraw-server -p 9876:9876 -p 8080:8080 rhuambarbosa/withdraw-server:<tag> 
+Docker: Na raiz do projeto
+```shell
+docker run -d --restart=always -e "SPRING_PROFILES_ACTIVE=prod" --name withdraw-server -p 9876:9876 -p 8080:8080 rhuambarbosa/withdraw-server:<tag>
+```  
 ## Funcionalidades API
 ```shell
 | Verbo     | Funcionalidade    | Descrição |
@@ -97,4 +100,4 @@ Algumas maquina não reconhece o rabbit no localhost então é necessário infor
 Verificar o ip do container
 ```shell
 docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' rabbitmq
-``` 
+```
