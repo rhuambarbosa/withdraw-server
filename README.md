@@ -50,7 +50,7 @@ Local: Dentro da pasta raiz do projeto onde exite o maven
 ```shell
 mvn spring-boot:run -Dspring.profiles.active=prod
 ``` 
-Docker: Na raiz do projeto
+Docker:
 ```shell
 docker run -d --restart=always -e "SPRING_PROFILES_ACTIVE=prod" --name withdraw-server -p 9876:9876 -p 8080:8080 rhuambarbosa/withdraw-server:<tag>
 ```  
