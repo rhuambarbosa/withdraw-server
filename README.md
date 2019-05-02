@@ -44,7 +44,7 @@ Docker
 ```shell
 mvn clean package docker:build --batch-mode release:update-versions 
 ```
-gera uma imagem docker rhuambarbosa/withdraw-server:<version>
+gera uma imagem docker rhuambarbosa/withdraw-server:[tag]
 ## Tests
 ```shell
 Subir o sistema de modo local ou em docker
