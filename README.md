@@ -77,11 +77,11 @@ ex:
 ```
 ## Funcionalidades API
 ```shell
-| Verbo| Funcionalidade                              | Descrição                                                                |
-| -----|---------------------------------------------|--------------------------------------------------------------------------|
-| Get  | http://localhost:8080/balances/{cardnumber} | Extrato com as 10 ultimas transações |
-| Get  | localhost:8080/psi/accounts                 | Retorna a conta de um cartão, recebe como parametro o cardNumber e se esta ativo    |
-| Get  | localhost:8080/psi/creditCard               | Retorna o Id dos cartões, recebe como parametro o page e o size da paigna desejada |
+| Verbo| Funcionalidade                              | Descrição                                                                
+| -----|---------------------------------------------|---------------------------------------
+| Get  | http://localhost:8080/balances/{cardnumber} | Extrato com as 10 ultimas transações 
+| Get  | localhost:8080/psi/accounts                 | Retorna a conta de um cartão, recebe como parametro o cardNumber e se esta ativo
+| Get  | localhost:8080/psi/creditCard               | Retorna o Id dos cartões, recebe como parametro o page e o size da paigna desejada
 | Get  | http://localhost:8080/actuator/health       |
 ``` 
 Na pasta resources/static existe o arquivo a ser importado no postman com cada uma das funcionalidades.
